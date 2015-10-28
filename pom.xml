@@ -33,17 +33,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.compiler.plugin>2.3.1</version.compiler.plugin>
     <version.maven-bundle-plugin>2.3.7</version.maven-bundle-plugin>
+    <version.maven.resources.plugin>2.7</version.maven.resources.plugin>
 
     <!-- maven-compiler-plugin -->
     <maven.compiler.target>1.7</maven.compiler.target>
     <maven.compiler.source>1.7</maven.compiler.source>
 
     <!-- the version of the BOM, defining all the dependency versions -->
-    <fabric8.bom.version>1.1.0.CR1</fabric8.bom.version>
-    <fabric.version>1.1.0.CR1</fabric.version>
+    <version.jboss.fuse>6.2.1.redhat-070</version.jboss.fuse>
+    <version.fabric>1.0.0.redhat-355</version.fabric>
 
     <!-- fabric8 deploy profile configuration -->
-    <fabric8.profile>quickstarts-cxf.code.first</fabric8.profile>
+    <fabric8.profile>basic-web-service.cxf</fabric8.profile>
     <fabric8.parentProfiles>feature-camel feature-cxf</fabric8.parentProfiles>
     <fabric8.features>camel-cxf camel-blueprint</fabric8.features>
   </properties>
@@ -60,9 +61,9 @@
   <dependencyManagement>
       <dependencies>
           <dependency>
-              <groupId>io.fabric8.bom</groupId>
-              <artifactId>fabric8-bom</artifactId>
-              <version>${fabric8.bom.version}</version>
+              <groupId>org.jboss.fuse.bom</groupId>
+              <artifactId>jboss-fuse-parent</artifactId>
+              <version>${version.jboss.fuse}</version>
               <type>pom</type>
               <scope>import</scope>
           </dependency>
@@ -76,7 +77,6 @@
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm-all</artifactId>
-      <version>4.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -180,6 +180,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>${version.compiler.plugin}</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
@@ -196,6 +197,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
+        <version>${version.maven.resources.plugin}</version>
       </plugin>
 
       <!-- allows the route to be ran via 'mvn camel:run' -->
@@ -210,7 +212,12 @@
       <plugin>
           <groupId>io.fabric8</groupId>
           <artifactId>fabric8-maven-plugin</artifactId>
-          <version>${fabric.version}</version>
+          <version>${version.fabric}</version>
+          <configuration>
+          <profile>${fabric8.profile}</profile>
+          <features>${fabric8.features</features>
+          	<jolokiaUrl>http://fabric-kunal.rhcloud.com/jolokia</jolokiaUrl>
+          </configuration>
       </plugin>
     </plugins>
   </build>
